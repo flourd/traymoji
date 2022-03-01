@@ -7,13 +7,13 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "@gitmoji": ["./src/Gitmoji"],
-      "@gitmoji/*": ["./src/Gitmoji/*"],
-      "@types": ["./src/types"],
-      "@types/*": ["./src/types/*", "./src/types/*.d.ts"],
-      "@/*": ["./src/*"]
+      "@components": ["./renderer/components/index"],
+      "@components/*": ["./renderer/components/*"],
+      "@types": ["./renderer/types/index"],
+      "@types/*": ["./renderer/types/*", "./renderer/types/index"],
+      "@/*": ["./*", "./renderer/*", "./main/*"]
     }
   }
 }
