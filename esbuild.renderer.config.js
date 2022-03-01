@@ -7,7 +7,7 @@ module.exports = {
   platform: 'browser',
   entryPoints: [path.resolve('src/renderer/index.tsx')],
   bundle: true,
-  target: 'chrome89', // electron version target
+  target: 'chrome98', // electron version target
   loader: {
     '.ts': 'ts',
     '.tsx': 'tsx',
