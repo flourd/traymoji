@@ -2,7 +2,7 @@ import path from "path";
 import { format } from "url";
 import { app, Tray, BrowserWindow, globalShortcut } from "electron";
 import { is } from "electron-util";
-import { WINDOW_ANIMATION_DURATION } from "src/constants";
+import { WINDOW_ANIMATION_DURATION } from "@/constants";
 
 let win: BrowserWindow | null = null;
 let tray = undefined;
@@ -68,8 +68,8 @@ async function createWindow() {
   const isDev = is.development;
 
   win = new BrowserWindow({
-    width: 370,
-    height: isDev ? 750 : 450,
+    width: isDev ? 740 : 370,
+    height: isDev ? 900 : 450,
     show: false,
     frame: false,
     fullscreenable: false,

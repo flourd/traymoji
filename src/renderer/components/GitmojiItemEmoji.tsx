@@ -1,14 +1,9 @@
 import React from "react";
-import { COPY_ANIMATION_DURATION } from "src/constants";
+import { COPY_ANIMATION_DURATION } from "@/constants";
 import styled from "styled-components";
-import { bounce } from "../animations/bounce";
-
-interface GitmojiItemEmojiProps {
-  index: number;
-  emoji: string;
-  isCopying: boolean;
-  onSelect: (emoji: string, index: number) => void;
-}
+import cn from "clsx";
+import { bounce } from "@/animations/bounce";
+import type { GitmojiItemEmojiProps } from "@types";
 
 export const GitmojiItemEmoji: React.FC<GitmojiItemEmojiProps> = ({
   index,
@@ -18,15 +13,17 @@ export const GitmojiItemEmoji: React.FC<GitmojiItemEmojiProps> = ({
 }) => (
   <Container
     onClick={() => onSelect(emoji, index)}
-    className={isCopying ? "copying" : ""}
+    className={cn({"copying": isCopying})}
   >
     {emoji}
   </Container>
 );
 
+const EMOJI_SIZE = 64;
+
 const Container = styled.div`
-  font-size: 35px;
-  height: 40px;
+  font-size: ${Math.floor(EMOJI_SIZE * (7/8))}px;
+  height: ${EMOJI_SIZE}px;
   margin: 0 0 12px;
   padding: 0;
   border: 0;

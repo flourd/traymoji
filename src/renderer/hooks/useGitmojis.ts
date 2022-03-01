@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { GITMOJI_URL } from "src/constants";
-import { Gitmoji } from "../types";
+import { GITMOJI_URL } from "@/constants";
+import { Gitmoji } from "@types";
 
 export const useGitmojis = () => {
   const [gitmojis, setGitmojis] = useState<Gitmoji[]>([]);

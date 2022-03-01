@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-
-interface GitmojiItemCodeProps {
-  index: number;
-  code: string;
-  onSelect: (emoji: string, index: number) => void;
-}
+import cn from "clsx";
+import { GitmojiItemCodeProps } from "@types";
 
 export const GitmojiItemCode: React.FC<GitmojiItemCodeProps> = ({
   index,
@@ -15,11 +11,13 @@ export const GitmojiItemCode: React.FC<GitmojiItemCodeProps> = ({
 
 const Container = styled.p`
   font-weight: 500;
-  font-size: 16px;
+  font-size: ${((code.length-1)*16) > 128 ? '12' : '16'}px;
   font-weight: bold;
   margin: 0 0 8px;
   padding: 0;
   color: #fff;
-  word-break: break-all;
+  word-break: none;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
 `;

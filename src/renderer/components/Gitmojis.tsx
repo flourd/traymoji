@@ -1,13 +1,7 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import { GitmojiItem } from "./GitmojiItem";
-import { Gitmoji } from "../types";
-
-interface GitmojisProps {
-  gitmojis: Gitmoji[];
-  query: string;
-  isVisible: boolean;
-}
+import { GitmojiItem } from "@/components";
+import type { Gitmoji, GitmojisProps } from "@types";
 
 export const Gitmojis: React.FC<GitmojisProps> = ({
   gitmojis = [],
@@ -89,6 +83,9 @@ export const Gitmojis: React.FC<GitmojisProps> = ({
   };
 
   useEffect(() => {
+    try {
+      window.removeEventListener("keydown", keydownListener, true);
+    } catch {}
     window.addEventListener("keydown", keydownListener, true);
 
     return () => window.removeEventListener("keydown", keydownListener, true);

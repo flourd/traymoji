@@ -1,21 +1,13 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import styled from "styled-components";
-import { GitmojiItemEmoji } from "./GitmojiItemEmoji";
-import { GitmojiItemCode } from "./GitmojiItemCode";
-import { Gitmoji } from "../types";
+import cn from "clsx";
+import { GitmojiItemEmoji, GitmojiItemCode } from "@/components";
+import type { Gitmoji, GitmojiItemProps } from "@types";
 import {
   WINDOW_ANIMATION_DURATION,
   COPY_ANIMATION_DURATION,
-} from "src/constants";
-import { blubber } from "../animations/blubber";
-
-interface GitmojiItemProps {
-  gitmoji: Gitmoji;
-  index: number;
-  isActive: boolean;
-  isVisible: boolean;
-  onSelect: (index: number) => void;
-}
+} from "@/constants";
+import { blubber } from "@/animations/blubber";
 
 export const GitmojiItem: React.FC<GitmojiItemProps> = ({
   gitmoji,
@@ -28,19 +20,12 @@ export const GitmojiItem: React.FC<GitmojiItemProps> = ({
   const [isCopying, setCopying] = useState<boolean>(false);
 
   const keydownListener = useCallback(
-    (keydownEvent) => {
-      const { key } = keydownEvent;
+    event => {
+      const { key, keyCode } = event;
 
-      switch (key) {
-        case "Enter":
-          if (isActive) {
-            navigator.clipboard.writeText(gitmoji.code);
-            setCopying(true);
-          }
-          break;
-
-        default:
-          break;
+      if (key === "Enter" && isActive) {
+        navigator.clipboard.writeText(gitmoji.code);
+        setCopying(true);
       }
     },
     [isActive]
@@ -78,15 +63,10 @@ export const GitmojiItem: React.FC<GitmojiItemProps> = ({
     <Wrapper index={index} isVisible={isVisible} ref={wrapperRef}>
       <Container
         key={gitmoji.emoji}
-        className={
-          isActive && isCopying ? "active copying" : isActive ? "active" : ""
-        }
+        className={cn({'active': isActive, 'copying': isCopying})}
+	style={{'cursor': 'pointer'}}
       >
-        <Top
-          className={
-            isActive && isCopying ? "active copying" : isActive ? "active" : ""
-          }
-        >
+        <Top className={cn({'active': isActive, 'copying': isCopying})}>
           <GitmojiItemEmoji
             index={index}
             emoji={gitmoji.emoji}
@@ -127,20 +107,20 @@ const Container = styled.div`
   text-align: center;
   border-radius: 8px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.18s ease;
-  border: solid 2px rgba(0, 0, 0, 0);
+  transition: all 0.3s ease;
+  border: solid 2px rgba(0, 0, 0, 0.05);
 
   &:hover,
   &.active {
     box-shadow: 10px 10px 8px rgb(0 0 0 / 8%);
-    transform: translateY(-2px);
+    transform: translateY(0);
     border: solid 2px #ffdd67;
   }
 
   &.copying {
     border: solid 2px rgba(255, 120, 120, 1);
     transform: translateY(0);
-    animation: ${blubber} 0.65s ease-in-out;
+    animation: ${blubber} 666ms ease-in-out;
   }
 `;
 
@@ -148,7 +128,7 @@ const Top = styled.div`
   background: rgba(28, 52, 80, 1);
   border-radius: 8px 8px 0 0;
   padding: 15px;
-  transition: all 0.18s ease;
+  transition: all 0.3s ease;
 
   &.copying {
     background-position: right center; /* change the direction of the change here */
@@ -158,7 +138,7 @@ const Top = styled.div`
 const Bottom = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 12px;
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -167,7 +147,7 @@ const Bottom = styled.div`
 `;
 
 const Description = styled.p`
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(38, 62, 90, 1);
   margin: 0;
 `;

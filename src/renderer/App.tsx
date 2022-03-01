@@ -1,33 +1,41 @@
 import React, { useEffect, useState, useRef } from "react";
 import { ipcRenderer } from "electron";
 import styled from "styled-components";
-import { SearchInput } from "./SearchInput/SearchInput";
-import { Gitmojis } from "./Gitmoji/Gitmojis";
-import { WINDOW_ANIMATION_DURATION } from "src/constants";
-import { useGitmojis } from "./hooks/useGitmojis";
-import { FailedToLoad } from "./Gitmoji/FailedToLoad";
+import cn from "clsx";
+import { Gitmojis, SearchInput, FailedToLoad } from "@/components";
+import { WINDOW_ANIMATION_DURATION } from "@/constants";
+import { useGitmojis } from "@/hooks";
 
 export function App() {
   const input = useRef<HTMLInputElement>();
   const [query, setQuery] = useState<string>("");
 
-  const [showWindow, setShowWindow] = useState<"show" | "hide">("hide");
-
+  const [showWindow, setShowWindow] = useState<true | false>(false);
+  const [initialLoad, setInitialLoad] = useState<true | false>(true);
   const { gitmojis, reload, error } = useGitmojis();
 
-  ipcRenderer.on("showWindow", (_, message) => {
-    setShowWindow(message);
+  const handleShowWindow = (_, message) => {
+    setShowWindow((message === "show"));
 
     if (message === "show" && input.current) {
       input.current.focus();
     }
-  });
+    return
+  };
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowWindow("show");
-    }, WINDOW_ANIMATION_DURATION);
-  }, []);
+    ipcRenderer.addEventListener("showWindow", handleShowWindow);
+    return () => ipcRenderer.removeEventListener("showWindow", handleShowWindow);
+  }, [handleShowWindow]);
+
+  useEffect(() => {
+    if (initialLoad) {
+    	setTimeout(() => {
+      	  setShowWindow(true);
+    	}, WINDOW_ANIMATION_DURATION);
+        setInitialLoad(false);
+    }
+  }, [initialLoad]);
 
   const handleSearch = (e) => {
     setQuery(e.target.value.toLowerCase());
@@ -42,7 +50,7 @@ export function App() {
   };
 
   return (
-    <Container showWindow={showWindow === "show"}>
+    <Container showWindow={showWindow}>
       <SearchInput
         query={query}
         onClear={handleClear}
@@ -53,7 +61,7 @@ export function App() {
         <Gitmojis
           gitmojis={gitmojis}
           query={query}
-          isVisible={showWindow === "show"}
+          isVisible={showWindow}
         />
       )}
       {error && <FailedToLoad onReload={handleReload} />}
@@ -66,8 +74,7 @@ const Container = styled.div<{ showWindow: boolean }>`
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  opacity: ${(props) => (props.showWindow ? 1 : 0)};
-  transform: ${(props) =>
-    props.showWindow ? "translateY(0%)" : "translateY(-10%)"};
+  opacity: ${({showWindow}) => (showWindow ? 1 : 0)};
+  transform: translateY(${({showWindow}) => showWindow ? "0" : "-10"}%);
   transition: all ${WINDOW_ANIMATION_DURATION}ms cubic-bezier(0.42, 0, 0.58, 1);
 `;
