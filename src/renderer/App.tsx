@@ -24,8 +24,8 @@ export function App() {
   };
 
   useEffect(() => {
-    ipcRenderer.addEventListener("showWindow", handleShowWindow);
-    return () => ipcRenderer.removeEventListener("showWindow", handleShowWindow);
+    window.addEventListener("showWindow", handleShowWindow);
+    return () => window.removeEventListener("showWindow", handleShowWindow);
   }, [handleShowWindow]);
 
   useEffect(() => {

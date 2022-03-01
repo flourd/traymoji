@@ -10,14 +10,9 @@ export const GitmojiItemEmoji: React.FC<GitmojiItemEmojiProps> = ({
   emoji,
   isCopying,
   onSelect,
-}) => (
-  <Container
-    onClick={() => onSelect(emoji, index)}
-    className={cn({"copying": isCopying})}
-  >
-    {emoji}
-  </Container>
-);
+}) => <Container onClick={() => onSelect(emoji, index)}
+    	className={cn({"copying": isCopying})}
+      >{emoji}</Container>;
 
 const EMOJI_SIZE = 64;
 
@@ -32,3 +27,6 @@ const Container = styled.div`
     animation: ${bounce} ${COPY_ANIMATION_DURATION}ms ease-in-out;
   }
 `;
+
+export default GitmojiItemEmoji;
+

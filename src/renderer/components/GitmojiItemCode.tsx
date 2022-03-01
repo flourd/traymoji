@@ -7,11 +7,18 @@ export const GitmojiItemCode: React.FC<GitmojiItemCodeProps> = ({
   index,
   code,
   onSelect,
-}) => <Container onClick={() => onSelect(code, index)}>{code}</Container>;
+}) => (
+  <Container 
+    onClick={() => onSelect(code, index)}
+    style={{'font-size': `${((code.length-1)*16) > 128 ? '12' : '16'}px !important`}}
+  >
+    {code}
+  </Container>
+);
 
 const Container = styled.p`
   font-weight: 500;
-  font-size: ${((code.length-1)*16) > 128 ? '12' : '16'}px;
+  font-size: 16px;
   font-weight: bold;
   margin: 0 0 8px;
   padding: 0;
@@ -21,3 +28,5 @@ const Container = styled.p`
   text-overflow: ellipsis;
   cursor: pointer;
 `;
+
+export default GitmojiItemCode;

@@ -151,3 +151,5 @@ const Description = styled.p`
   color: rgba(38, 62, 90, 1);
   margin: 0;
 `;
+
+export default GitmojiItem;

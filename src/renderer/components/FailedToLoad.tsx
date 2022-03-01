@@ -5,7 +5,7 @@ interface FailedToLoadProps {
   onReload: () => void;
 }
 
-export const FailedToLoad: React.FC<FailedToLoadProps> = ({ onReload }) => (
+const FailedToLoad: React.FC<FailedToLoadProps> = ({ onReload }) => (
   <Container>
     <Emoji>😭</Emoji>
     <Message>Failed to load Gitmojis.</Message>
@@ -39,3 +39,5 @@ const Button = styled.button`
   font-size: 12px;
   padding: 10px 16px;
 `;
+
+export default FailedToLoad;

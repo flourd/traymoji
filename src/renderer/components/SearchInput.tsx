@@ -86,3 +86,6 @@ const ClearButton = styled.button`
     cursor: pointer;
   }
 `;
+
+export default SearchInput;
+

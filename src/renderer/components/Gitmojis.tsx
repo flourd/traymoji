@@ -125,3 +125,6 @@ const Grid = styled.div`
   width: 100%;
   align-self: end;
 `;
+
+export default Gitmojis;
+
