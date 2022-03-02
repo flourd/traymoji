@@ -1,11 +1,11 @@
-const path = require('path')
+import { resolve } from 'path';
 
 /**
  * @var {Partial<import('esbuild').BuildOptions>}
  */
-module.exports = {
+export default {
   platform: 'browser',
-  entryPoints: [path.resolve('src/renderer/index.tsx')],
+  entryPoints: [resolve('src/renderer/index.tsx')],
   bundle: true,
   target: 'chrome98', // electron version target
   loader: {

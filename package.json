@@ -1,26 +1,39 @@
 {
   "name": "traymoji",
   "version": "1.0.0",
-  "author": "Coen Warmer",
-  "license": "GPL-3.0",
+  "author": "Nicholas Berlette <nick@berlette.com>",
+  "license": "MIT",
   "description": "macOS app that provides fast access to gitmoji - right from your tray!",
+  "packageManager": "pnpm@6.32.2",
+  "repository": "https://github.com/flourd/traymoji",
+  "readme": "https://github.com/flourd/traymoji#readme",
+  "bugs": "https://github.com/flourd/traymoji/issues",
+  "homepage": "https://flourd.github.io/traymoji",
   "scripts": {
     "postinstall": "if ! command -v pnpm >&/dev/null; then npm i -g pnpm@6.32.2 2>/dev/null; fi",
     "dev": "nr prebuild && electron-esbuild dev",
     "build": "electron-esbuild build",
     "clean": "rm -rf dist",
-    "prebuild": "mkdir -p dist/main && cp -a -R static/* dist/main/",
-    "package": "electron-builder",
+    "prebuild": "[ ! -d dist/main/icon ] && { mkdir -p dist/main/icon && cp -a -R static/icon/* dist/main/icon; }; [ ! -f build/icon.png ] || [ ! -f build/icon.icns ] && cp -a -R static/icon/icon.* build/ >&/dev/null;",
+    "package": "nr build && electron-builder build --mac --arm64 --x64",
     "start": "[ ! -d dist/main ] && nr build; electron dist/main/."
   },
   "build": {
     "appId": "dev.flourd.traymoji",
+    "icon": "build/icon.icns",
     "productName": "traymoji",
     "extraMetadata": {
       "name": "traymoji",
       "main": "main.js"
     },
+    "extraResources": [
+      "build/*",
+      "build/**/*"
+    ],
     "files": [
+      {
+        "from": "build/icon.*"
+      },
       {
         "from": ".",
         "filter": [
@@ -60,23 +73,23 @@
   "devDependencies": {
     "@antfu/ni": "latest",
     "@types/node": "latest",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
     "clsx": "1.1.1",
-    "electron": "^12.0.2",
-    "electron-builder": "^22.10.5",
-    "electron-esbuild": "1.x",
+    "electron": "^17.1.0",
+    "electron-builder": "^22.14.13",
+    "electron-esbuild": "~5.0.0",
     "electron-util": "^0.14.2",
-    "esbuild": "0.x",
+    "electron-utils": "1.0.9",
+    "esbuild": "~0.14.23",
     "pnpm": "6.32.2",
     "preact": "latest",
     "preact-render-to-string": "latest",
-    "react": "npm:@preact/compat",
-    "react-dom": "npm:@preact/compat",
-    "react-is": ">=16.8.0",
-    "typescript": "^4.2.3"
+    "react": "npm:@preact/compat@^17.0.3",
+    "react-dom": "npm:@preact/compat@^17.0.3",
+    "react-is": "^17.0.2",
+    "typescript": "^4.6.2"
   },
-  "packageManager": "pnpm@6.32.2",
   "peerDependencies": {
     "react-is": ">=16.8.0"
   }
