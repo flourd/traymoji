@@ -68,8 +68,8 @@ async function createWindow() {
   const isDev = is.development;
 
   win = new BrowserWindow({
-    width: isDev ? 740 : 370,
-    height: isDev ? 900 : 450,
+    width: isDev ? 768 : 420,
+    height: isDev ? 640 : 380,
     show: false,
     frame: false,
     fullscreenable: false,
@@ -79,7 +79,6 @@ async function createWindow() {
       backgroundThrottling: false,
       nodeIntegration: true,
       devTools: true,
-      enableRemoteModule: false,
       contextIsolation: false,
     },
   });
